@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Double Life Closet ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080214;--cyan:#00E5FF;--pink:#FF0077;--pink2:#FF5CA8;
+  --gold:#FFD700;--gold2:#FFA500;--lilac:#CC88FF;--cream:#FFF6EE;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:#fff;font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 40% at 10% 0%,rgba(0,229,255,.09) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 40% at 90% 100%,rgba(255,0,119,.09) 0%,transparent 60%);}
+
+/* HEADER */
+header{position:relative;z-index:2;text-align:center;padding:28px 20px 24px;
+  background:linear-gradient(180deg,rgba(0,229,255,.07) 0%,transparent 100%);
+  border-bottom:1px solid rgba(0,229,255,.18);}
+.eyebrow{font-size:.68rem;letter-spacing:7px;text-transform:uppercase;color:var(--cyan);font-weight:800;margin-bottom:6px;}
+.logo{font-family:'Boogaloo',cursive;font-size:clamp(2.6rem,7vw,5rem);line-height:.9;color:var(--gold);
+  text-shadow:0 0 30px rgba(255,215,0,.5),3px 3px 0 #C08800,6px 6px 0 rgba(160,96,0,.35);}
+.logo .alt{color:var(--pink);
+  text-shadow:0 0 30px rgba(255,0,119,.55),3px 3px 0 #900040,6px 6px 0 rgba(100,0,50,.35);}
+.logo-sub{font-size:.92rem;color:rgba(255,246,238,.6);margin-top:8px;}
+.star{position:absolute;animation:twinkle 2.5s ease-in-out infinite alternate;}
+.star.s1{top:18px;left:5%;font-size:1.1rem;}.star.s2{top:36px;left:14%;font-size:.8rem;animation-delay:.6s;}
+.star.s3{top:12px;right:14%;font-size:1.1rem;animation-delay:.3s;}.star.s4{top:40px;right:5%;font-size:.8rem;animation-delay:.9s;}
+@keyframes twinkle{from{opacity:.2;transform:scale(.8);}to{opacity:1;transform:scale(1.15);}}
+.disco{width:52px;height:52px;border-radius:50%;
+  background:conic-gradient(from 0deg,#eee 0%,#aaa 12%,#fff 24%,#aaa 36%,#888 48%,#fff 60%,#aaa 72%,#eee 84%,#fff 100%);
+  box-shadow:0 0 18px rgba(255,255,255,.45);animation:discospin 2s linear infinite;
+  position:absolute;top:50%;right:32px;transform:translateY(-50%);}
+@keyframes discospin{to{transform:translateY(-50%) rotate(360deg);}}
+
+/* MAIN GRID */
+.main{position:relative;z-index:1;display:grid;grid-template-columns:1fr 370px;gap:0;
+  max-width:1380px;margin:0 auto;padding:28px 20px 40px;}
+
+/* LEFT WARDROBE */
+.wardrobe{padding-right:28px;}
+.status-bar{display:flex;align-items:center;gap:16px;background:rgba(0,229,255,.06);
+  border:1.5px solid rgba(0,229,255,.25);border-radius:18px;padding:14px 18px;margin-bottom:28px;
+  box-shadow:0 0 24px rgba(0,229,255,.08);}
+.status-slot{display:flex;align-items:center;gap:12px;flex:1;}
+.status-thumb{width:52px;height:64px;border-radius:10px;overflow:hidden;border:2px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.2);font-size:1.6rem;flex-shrink:0;}
+.status-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.status-type{font-size:.6rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--cyan);font-weight:800;}
+.status-name{font-size:.82rem;font-weight:700;color:var(--cream);margin-top:2px;}
+.plus{font-family:'Boogaloo',cursive;font-size:1.8rem;color:var(--gold);}
+
+.row-section{margin-bottom:30px;}
+.row-label{display:flex;align-items:center;gap:10px;font-size:.68rem;letter-spacing:4px;
+  text-transform:uppercase;color:var(--pink2);font-weight:800;margin-bottom:14px;}
+.row-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,92,168,.4),transparent);}
+
+.garment-row{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;
+  scrollbar-width:thin;scrollbar-color:rgba(255,0,119,.4) transparent;}
+.garment-row::-webkit-scrollbar{height:3px;}
+.garment-row::-webkit-scrollbar-thumb{background:rgba(255,0,119,.4);border-radius:4px;}
+
+.garment-card{flex-shrink:0;width:145px;cursor:pointer;border-radius:16px;overflow:hidden;
+  border:2.5px solid transparent;background:rgba(255,255,255,.04);transition:all .22s ease;position:relative;}
+.garment-card:hover{border-color:rgba(255,92,168,.6);transform:translateY(-5px);box-shadow:0 12px 28px rgba(255,0,119,.2);}
+.garment-card.selected{border-color:var(--cyan);transform:translateY(-7px);
+  box-shadow:0 0 0 3px rgba(0,229,255,.15),0 16px 36px rgba(0,229,255,.2);}
+.garment-card.selected::after{content:'✓';position:absolute;top:8px;right:8px;
+  width:22px;height:22px;line-height:22px;background:var(--cyan);color:var(--bg);
+  border-radius:50%;font-size:.7rem;font-weight:900;text-align:center;}
+
+.garment-img-wrap{width:100%;height:175px;background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.garment-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.garment-img-wrap.loading{animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.4;}50%{opacity:.8;}}
+.garment-img-wrap svg{width:80%;height:80%;opacity:.5;}
+.garment-name{font-size:.75rem;font-weight:700;color:var(--cream);padding:7px 8px;text-align:center;background:rgba(0,0,0,.45);}
+
+/* RIGHT PANEL */
+.panel{position:sticky;top:20px;height:fit-content;background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,215,0,.22);border-radius:24px;padding:26px 22px;
+  box-shadow:0 0 0 1px rgba(255,215,0,.05),inset 0 1px 0 rgba(255,215,0,.1);}
+.panel-title{font-family:'Boogaloo',cursive;font-size:1.65rem;color:var(--gold);
+  text-shadow:0 0 22px rgba(255,215,0,.4);margin-bottom:3px;}
+.panel-hint{font-size:.8rem;color:rgba(255,246,238,.5);margin-bottom:22px;}
+.field{margin-bottom:18px;}
+.field-lbl{display:block;font-size:.67rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--pink2);font-weight:800;margin-bottom:9px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;}
+.pill{padding:7px 13px;border-radius:999px;border:1.5px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.04);color:rgba(255,246,238,.8);font-size:.8rem;font-weight:700;
+  cursor:pointer;font-family:'Nunito',sans-serif;transition:all .18s ease;}
+.pill:hover{border-color:var(--lilac);color:var(--lilac);}
+.pill.on{background:linear-gradient(95deg,var(--pink),var(--lilac));border-color:transparent;
+  color:#fff;box-shadow:0 5px 16px rgba(255,0,119,.3);}
+.loc-input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);color:var(--cream);font-family:'Nunito',sans-serif;font-size:.88rem;}
+.loc-input:focus{outline:none;border-color:var(--cyan);}
+.loc-input::placeholder{color:rgba(255,246,238,.3);}
+.gen-btn{width:100%;padding:15px;border:none;border-radius:14px;
+  background:linear-gradient(95deg,var(--gold),var(--gold2),var(--pink));color:var(--bg);
+  font-family:'Boogaloo',cursive;font-size:1.22rem;cursor:pointer;margin-top:6px;
+  box-shadow:0 10px 28px rgba(255,215,0,.28);transition:transform .15s ease;}
+.gen-btn:hover{transform:translateY(-3px);}
+
+/* RESULT */
+.result{margin-top:24px;display:none;}
+.result.show{display:block;animation:rIn .45s ease;}
+@keyframes rIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.result-rule{height:2px;margin-bottom:18px;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--gold));
+  border-radius:2px;box-shadow:0 0 12px rgba(0,229,255,.25);}
+.result-eyebrow{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:8px;}
+.result-name{font-family:'Boogaloo',cursive;font-size:1.5rem;color:var(--cyan);
+  text-shadow:0 0 18px rgba(0,229,255,.4);margin-bottom:12px;}
+.result-photos{display:flex;gap:10px;margin-bottom:14px;}
+.result-photo{flex:1;border-radius:12px;overflow:hidden;border:2px solid rgba(0,229,255,.28);}
+.result-photo img{width:100%;height:115px;object-fit:cover;display:block;}
+.result-photo-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;color:var(--cyan);
+  font-weight:800;text-align:center;padding:5px 4px;background:rgba(0,0,0,.5);}
+.result-vibe{font-size:.83rem;color:rgba(255,246,238,.75);line-height:1.55;margin-bottom:12px;font-style:italic;}
+.result-accs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.acc{padding:4px 10px;border-radius:999px;background:rgba(255,215,0,.1);
+  border:1px solid rgba(255,215,0,.3);font-size:.7rem;color:var(--gold);font-weight:700;}
+.result-tip{font-size:.78rem;color:rgba(255,246,238,.5);line-height:1.5;
+  border-left:2.5px solid var(--pink);padding-left:10px;}
+.loading-msg{text-align:center;padding:22px 10px;color:var(--cyan);font-size:.88rem;}
+.spin{width:28px;height:28px;margin:0 auto 10px;border:3px solid rgba(0,229,255,.15);
+  border-top-color:var(--cyan);border-radius:50%;animation:sp .75s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.img-loading-bar{height:3px;background:linear-gradient(90deg,var(--cyan),var(--pink));
+  border-radius:2px;margin-bottom:20px;animation:progressBar 3s ease-in-out;}
+@keyframes progressBar{from{width:0%}to{width:100%}}
+
+@media(max-width:860px){
+  .main{grid-template-columns:1fr;padding:20px 14px 40px;}
+  .wardrobe{padding-right:0;margin-bottom:26px;}
+  .panel{position:static;}
+  .disco{display:none;}
+}
+</style>
+</head>
+<body>
+<header>
+  <span class="star s1">⭐</span><span class="star s2">✦</span>
+  <span class="star s3">⭐</span><span class="star s4">✦</span>
+  <div class="disco"></div>
+  <div class="eyebrow">★ Disney Presents ★</div>
+  <div class="logo">Double Life <span class="alt">Closet</span></div>
+  <div class="logo-sub">Mix your look · Give me the vibe · I'll style the rest ✨</div>
+</header>
+
+<div class="main">
+  <div class="wardrobe">
+    <div class="status-bar">
+      <div class="status-slot">
+        <div class="status-thumb" id="topThumb">👆</div>
+        <div><div class="status-type">Top</div><div class="status-name" id="topName">Pick a top below</div></div>
+      </div>
+      <div class="plus">+</div>
+      <div class="status-slot">
+        <div class="status-thumb" id="bottomThumb">👇</div>
+        <div><div class="status-type">Bottom</div><div class="status-name" id="bottomName">Pick a bottom below</div></div>
+      </div>
+    </div>
+
+    <div class="row-section">
+      <div class="row-label">✦ Tops</div>
+      <div class="garment-row" id="topsRow"></div>
+    </div>
+    <div class="row-section">
+      <div class="row-label">✦ Bottoms</div>
+      <div class="garment-row" id="bottomsRow"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Style Me ✨</div>
+    <div class="panel-hint">Select pieces, pick your vibe — watch the magic happen.</div>
+    <div class="field">
+      <span class="field-lbl">Occasion</span>
+      <div class="pills" id="occasionGroup">
+        <div class="pill" data-val="concert">🎤 Concert</div>
+        <div class="pill" data-val="school">🎒 School</div>
+        <div class="pill" data-val="redcarpet">⭐ Red Carpet</div>
+        <div class="pill" data-val="beach">🌊 Beach</div>
+        <div class="pill" data-val="party">🎉 Party</div>
+        <div class="pill" data-val="casual">🛍 Mall Run</div>
+      </div>
+    </div>
+    <div class="field">
+      <span class="field-lbl">Season</span>
+      <div class="pills" id="seasonGroup">
+        <div class="pill" data-val="summer">☀️ Summer</div>
+        <div class="pill" data-val="spring">🌸 Spring</div>
+        <div class="pill" data-val="fall">🍂 Fall</div>
+        <div class="pill" data-val="winter">❄️ Winter</div>
+      </div>
+    </div>
+    <div class="field">
+      <span class="field-lbl">Location</span>
+      <input class="loc-input" id="location" type="text" placeholder="e.g. Malibu, Nashville, Tokyo…">
+    </div>
+    <button class="gen-btn" id="genBtn">Open the Closet ✨</button>
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
+<script>
+/* ── CLOTHING DEFINITIONS ── */
+const tops = [
+  {id:'t1', name:'White Graphic Tee',    q:'white graphic tee shirt fashion product photo'},
+  {id:'t2', name:'Pink Hoodie',          q:'pink oversized hoodie sweatshirt fashion'},
+  {id:'t3', name:'Denim Jacket',         q:'blue denim jacket women fashion product'},
+  {id:'t4', name:'Floral Blouse',        q:'floral blouse women fashion spring'},
+  {id:'t5', name:'Striped Crop Top',     q:'striped crop top women fashion summer'},
+  {id:'t6', name:'Sequin Glam Top',      q:'sequin sparkle top women fashion party'},
+  {id:'t7', name:'Cozy Knit Sweater',    q:'cozy knit sweater women fashion fall'},
+];
+const bottoms = [
+  {id:'b1', name:'Blue Skinny Jeans',    q:'blue skinny jeans women denim fashion'},
+  {id:'b2', name:'Plaid Mini Skirt',     q:'plaid mini skirt women fashion school'},
+  {id:'b3', name:'Denim Shorts',         q:'denim shorts women fashion casual summer'},
+  {id:'b4', name:'Wide-Leg Trousers',    q:'wide leg trousers women fashion elevated'},
+  {id:'b5', name:'Pleated Mini Skirt',   q:'pleated mini skirt women fashion girly'},
+  {id:'b6', name:'Cargo Pants',          q:'cargo pants women fashion streetwear'},
+  {id:'b7', name:'Leather Mini Skirt',   q:'leather mini skirt women fashion edgy'},
+];
+
+let selTop=null, selBottom=null, selOcc=null, selSeason=null;
+
+/* ── FETCH IMAGES VIA CLAUDE API + WEB SEARCH ── */
+async function fetchImageURLs(items) {
+  const itemList = items.map(i=>`- id:"${i.id}" query:"${i.q}"`).join('\n');
+  const prompt = `You are a fashion image finder. For each clothing item below, use web search to find ONE direct image URL from Unsplash.com (images.unsplash.com) or Pexels.com (images.pexels.com) that shows that fashion item clearly. The image should be a clean product/editorial photo of just that clothing piece.
+
+${itemList}
+
+IMPORTANT: Return ONLY a JSON object, no other text. Format:
+{"t1":"https://...","t2":"https://..."}
+
+Use real, working direct image URLs ending in .jpg, .jpeg, or .webp. Do not use page URLs, only direct image file URLs.`;
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-6',
+      max_tokens:800,
+      tools:[{type:'web_search_20250305',name:'web_search'}],
+      messages:[{role:'user',content:prompt}]
+    })
+  });
+  const data = await resp.json();
+  const text = (data.content||[]).map(c=>c.type==='text'?c.text:'').join('');
+  const match = text.match(/\{[\s\S]*\}/);
+  if(!match) throw new Error('No JSON in response');
+  return JSON.parse(match[0]);
+}
+
+/* ── PLACEHOLDER SVG ── */
+function placeholderSVG(type, color) {
+  const c = color||'#9966cc';
+  if(type==='top') return `<svg viewBox="0 0 80 70" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 5 L10 0 L0 15 L12 20 L12 65 L68 65 L68 20 L80 15 L70 0 L60 5 Q40 12 20 5Z" fill="${c}" opacity=".85"/>
+    <path d="M30 5 Q40 12 50 5" stroke="rgba(255,255,255,.3)" stroke-width="1" fill="none"/>
+  </svg>`;
+  return `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 0 L70 0 L78 80 L2 80Z" fill="${c}" opacity=".85"/>
+    <line x1="40" y1="0" x2="40" y2="80" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+  </svg>`;
+}
+
+const topColors = ['#e8d5b7','#f4a7c3','#a8c4e0','#f7d4c4','#c4e4d0','#e8c4f0','#d4c4b0'];
+const botColors = ['#4a90d9','#d4a0b0','#b0c4d8','#8a9060','#e0c8d4','#708050','#3a3030'];
+
+/* ── RENDER CARDS (show placeholder first) ── */
+function renderRow(items, containerId, type, colorArr) {
+  const row = document.getElementById(containerId);
+  items.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'garment-card';
+    card.dataset.id = item.id;
+    card.innerHTML = `
+      <div class="garment-img-wrap loading" id="wrap-${item.id}">
+        ${placeholderSVG(type, colorArr[i])}
+      </div>
+      <div class="garment-name">${item.name}</div>`;
+    card.addEventListener('click', ()=>pick(item, type, card, containerId));
+    row.appendChild(card);
+  });
+}
+
+function setImage(id, url) {
+  const wrap = document.getElementById('wrap-'+id);
+  if(!wrap) return;
+  const img = new Image();
+  img.onload = () => {
+    wrap.classList.remove('loading');
+    wrap.innerHTML = '';
+    wrap.appendChild(img);
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+  };
+  img.onerror = () => { wrap.classList.remove('loading'); };
+  img.src = url;
+  img.alt = id;
+}
+
+renderRow(tops,    'topsRow',    'top',    topColors);
+renderRow(bottoms, 'bottomsRow', 'bottom', botColors);
+
+/* ── LOAD IMAGES ASYNCHRONOUSLY ── */
+(async function loadImages() {
+  try {
+    // Load tops and bottoms in parallel
+    const [topURLs, botURLs] = await Promise.all([
+      fetchImageURLs(tops),
+      fetchImageURLs(bottoms)
+    ]);
+    [...tops,...bottoms].forEach(item=>{
+      const urls = {...topURLs,...botURLs};
+      if(urls[item.id]) setImage(item.id, urls[item.id]);
+    });
+  } catch(e) {
+    console.warn('Image fetch failed, keeping placeholders:', e);
+  }
+})();
+
+/* ── SELECT GARMENT ── */
+function pick(item, type, card, containerId) {
+  document.querySelectorAll(`#${containerId} .garment-card`).forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  const wrap = document.getElementById('wrap-'+item.id);
+  const imgEl = wrap ? wrap.querySelector('img') : null;
+  const thumbSrc = imgEl ? imgEl.src : null;
+
+  if(type==='top'){
+    selTop = {...item, thumbSrc};
+    const t = document.getElementById('topThumb');
+    t.innerHTML = thumbSrc ? `<img src="${thumbSrc}" alt="${item.name}">` : placeholderSVG('top', topColors[tops.findIndex(x=>x.id===item.id)]);
+    document.getElementById('topName').textContent = item.name;
+  } else {
+    selBottom = {...item, thumbSrc};
+    const b = document.getElementById('bottomThumb');
+    b.innerHTML = thumbSrc ? `<img src="${thumbSrc}" alt="${item.name}">` : placeholderSVG('bottom', botColors[bottoms.findIndex(x=>x.id===item.id)]);
+    document.getElementById('bottomName').textContent = item.name;
+  }
+}
+
+/* ── PILLS ── */
+document.querySelectorAll('#occasionGroup .pill').forEach(p=>{
+  p.addEventListener('click',()=>{
+    document.querySelectorAll('#occasionGroup .pill').forEach(x=>x.classList.remove('on'));
+    p.classList.add('on'); selOcc=p.dataset.val;
+  });
+});
+document.querySelectorAll('#seasonGroup .pill').forEach(p=>{
+  p.addEventListener('click',()=>{
+    document.querySelectorAll('#seasonGroup .pill').forEach(x=>x.classList.remove('on'));
+    p.classList.add('on'); selSeason=p.dataset.val;
+  });
+});
+
+/* ── GENERATE OUTFIT ── */
+const resultEl = document.getElementById('result');
+const occLabels={concert:'Concert',school:'School Day',redcarpet:'Red Carpet',beach:'Beach Day',party:'Party',casual:'Mall Run'};
+const seasonLabels={summer:'Summer',spring:'Spring',fall:'Fall',winter:'Winter'};
+
+document.getElementById('genBtn').addEventListener('click', async () => {
+  if(!selTop||!selBottom){nudge('Choose a top and a bottom from the rack! 👗');return;}
+  if(!selOcc||!selSeason){nudge('Pick an occasion and season too! ✨');return;}
+  const loc = document.getElementById('location').value.trim();
+  resultEl.className='result show';
+  resultEl.innerHTML=`<div class="result-rule"></div><div class="loading-msg"><div class="spin"></div>Pulling your look together…</div>`;
+
+  const prompt = `You are a high-energy teen fashion stylist for "Double Life Closet," a Hannah Montana–themed outfit app. The user has picked:
+- Top: ${selTop.name}
+- Bottom: ${selBottom.name}
+- Occasion: ${occLabels[selOcc]}
+- Season: ${seasonLabels[selSeason]}${loc?'\n- Location: '+loc:''}
+
+Return ONLY valid JSON — no markdown, no extra text:
+{"outfitName":"catchy name max 5 words","vibe":"2 sentences fun enthusiastic how these pieces work together","accessories":["acc1","acc2","acc3"],"tip":"one styling tip max 18 words"}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:400,
+        messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const raw=(data.content||[]).map(c=>c.text||'').join('');
+    const r=JSON.parse(raw.replace(/```json|```/g,'').trim());
+
+    const topImgWrap  = document.getElementById('wrap-'+selTop.id);
+    const botImgWrap  = document.getElementById('wrap-'+selBottom.id);
+    const topImgEl    = topImgWrap?.querySelector('img');
+    const botImgEl    = botImgWrap?.querySelector('img');
+    const topImgHTML  = topImgEl
+      ? `<img src="${topImgEl.src}" alt="${selTop.name}">`
+      : `<div style="width:100%;height:115px;display:flex;align-items:center;justify-content:center;">${placeholderSVG('top',topColors[tops.findIndex(x=>x.id===selTop.id)])}</div>`;
+    const botImgHTML  = botImgEl
+      ? `<img src="${botImgEl.src}" alt="${selBottom.name}">`
+      : `<div style="width:100%;height:115px;display:flex;align-items:center;justify-content:center;">${placeholderSVG('bottom',botColors[bottoms.findIndex(x=>x.id===selBottom.id)])}</div>`;
+
+    resultEl.innerHTML=`
+      <div class="result-rule"></div>
+      <div class="result-eyebrow">Today's Look ✦ ${occLabels[selOcc]} · ${seasonLabels[selSeason]}</div>
+      <div class="result-name">${r.outfitName}</div>
+      <div class="result-photos">
+        <div class="result-photo">${topImgHTML}<div class="result-photo-lbl">${selTop.name}</div></div>
+        <div class="result-photo">${botImgHTML}<div class="result-photo-lbl">${selBottom.name}</div></div>
+      </div>
+      <div class="result-vibe">${r.vibe}</div>
+      <div class="result-accs">${(r.accessories||[]).map(a=>`<div class="acc">✦ ${a}</div>`).join('')}</div>
+      <div class="result-tip">${r.tip}</div>`;
+  }catch(e){
+    resultEl.innerHTML=`<div class="result-rule"></div>
+      <div class="result-eyebrow" style="color:var(--pink)">Wardrobe Malfunction 😅</div>
+      <div class="result-tip">Something went sideways — give it another shot!</div>`;
+  }
+});
+
+function nudge(msg){
+  const btn=document.getElementById('genBtn');
+  btn.textContent=msg;
+  setTimeout(()=>{btn.textContent='Open the Closet ✨';},2400);
+}
+</script>
+</body>
+</html>
